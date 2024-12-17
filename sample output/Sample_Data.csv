@@ -6,7 +6,7 @@ date,language,type,title,by,overall,quality,repeatability
 05-Oct-24,Tamil,movie,GOAT,Vijay,3,3,1
 02-Oct-24,Telugu,movie,Sanivaaram Saripodhaa,"Nani, SJ Surya",3,3,1
 01-Oct-24,Tamil,movie,Saba Nayagan,Ashok Selvan,3,3,2
-30-Sep-24,English,movie,Dune: Part Two,"Timothée Chalamet, Zendaya",3,4,1
+30-Sep-24,English,movie,Dune: Part Two,"TimothÃ©e Chalamet, Zendaya",3,4,1
 10-Sep-24,English,movie,Spencer Confidential,Mark Wahlberg,3,3,1
 07-Sep-24,English,movie,Gemini Man,Will Smith,3,3,1
 05-Sep-24,Tamil,movie,Arul,"Vikram, Jyothika, KS Ravikumar",3,3,2
@@ -185,7 +185,7 @@ date,language,type,title,by,overall,quality,repeatability
 02-Oct-22,Tamil,movie,Kavan,"Vijay Sethupathi, Madonna Sebastian",3,4,2
 30-Sep-22,Tamil,movie,Thiruchitrambalam,"Dhanush, Nithya Menon",3,4,1
 29-Sep-22,English,TV series,Moon Knight,,3,3,1
-26-Sep-22,English,TV series,What If…?,,3,4,1
+26-Sep-22,English,TV series,What IfÂ…?,,3,4,1
 21-Sep-22,English,TV series,Hawkeye,,3,3,1
 18-Sep-22,English,TV series,WandaVision,,3,3,1
 17-Sep-22,English,TV series,Loki,,3,4,1
@@ -263,7 +263,7 @@ date,language,type,title,by,overall,quality,repeatability
 03-Apr-22,English,movie,Looper,"Joseph Gordon-Levitt, Bruce Willis",3,3,1
 01-Apr-22,English,TV series,Taken: Season 1,,3,3,1
 29-Mar-22,English,movie,Free Guy,"Ryan Reynolds, Jodie Comer",3,4,1
-28-Mar-22,English,movie,Dune,"Timothée Chalamet, Rebecca Ferguson, Zendaya",3,3,1
+28-Mar-22,English,movie,Dune,"TimothÃ©e Chalamet, Rebecca Ferguson, Zendaya",3,3,1
 28-Mar-22,English,movie,The Adam Project,"Ryan Reynolds, Mark Ruffalo",3,3,1
 27-Mar-22,Tamil,movie,Valimai,"Ajith, Kartikeya Gummakonda",3,4,1
 27-Mar-22,Telugu,movie,Sagara Sangaman,"K. Viswanath, Kamal Hassan, Jayapradha",5,5,3
@@ -586,7 +586,7 @@ date,language,type,title,by,overall,quality,repeatability
 18-Aug-19,English,movie,Jumanji: Welcome to the Jungle,Dwayne Johnson,3,3,1
 18-Aug-19,English,movie,Shazam,Zachary Levi,2,3,1
 15-Aug-19,Hindi,movie,Katti Batti,"Imran Khan, Kangana Ranaut",3,3,1
-11-Aug-19,Hindi,movie,Madras Café,John Abraham,3,3,1
+11-Aug-19,Hindi,movie,Madras CafÃ©,John Abraham,3,3,1
 11-Aug-19,Hindi,movie,Badla,"Amitabh Bachchan, Tapsee Pannu",4,4,1
 11-Aug-19,Malayalam,movie,Grandmaster,"Mohan Lal, Priya Mani",4,4,1
 08-Aug-19,English,TV series,Daredevil S3E3,,3,3,1
@@ -1573,7 +1573,7 @@ date,language,type,title,by,overall,quality,repeatability
 21-Feb-10,Tamil,movie,Asal,Ajith,2,2,1
 20-Feb-10,Tamil,movie,Sakalakala Vallavan,"Kamal Hassan, Ambika",2,2,1
 19-Feb-10,English,movie,The Hire,Clive Owen,3,4,1
-19-Feb-10,English,movie,Harry Potter and the Prisoner of Azkaban,Alfonso Cuarón,4,4,2
+19-Feb-10,English,movie,Harry Potter and the Prisoner of Azkaban,Alfonso CuarÃ³n,4,4,2
 17-Feb-10,English,movie,Harry Potter and the Chamber of Secrets,Chris Columbus,3,3,2
 14-Feb-10,Tamil,movie,Aayirathil Oruvan,"Selvaraghavan, Parthi, Reema Sen",4,5,1
 13-Feb-10,English,movie,Harry Potter and the Sorcerer's Stone,Chris Columbus,3,3,2
@@ -1823,7 +1823,7 @@ date,language,type,title,by,overall,quality,repeatability
 19-Aug-08,Tamil,movie,Yaaradi Nee Mohini,"Dhanush, Nayantara",3,3,2
 18-Aug-08,Tamil,movie,Chokka Thangam,"Vijaykanth, Prakash Raj, Soundarya",3,2,2
 17-Aug-08,Tamil,movie,Piriyadha Varam Vendum,"Prashanth, Shalini",2,2,2
-16-Aug-08,English,movie,Harry Potter and the Prisoner of Azkaban,Alfonso Cuarón,4,4,2
+16-Aug-08,English,movie,Harry Potter and the Prisoner of Azkaban,Alfonso CuarÃ³n,4,4,2
 16-Aug-08,Tamil,movie,Kodi Parakkudhu,"Rajnikanth, Amala",3,3,1
 16-Aug-08,English,non-fiction,Predictably Irrational,Dan Ariely,4,4,2
 31-Jul-08,Tamil,movie,Thiruda Thirudi,Dhanush,4,3,2
@@ -2007,7 +2007,7 @@ date,language,type,title,by,overall,quality,repeatability
 11-Aug-07,Tamil,movie,Pudhiya Geethai,"Vijay, Meera Jasmine, Amisha Patel, Kalabhavan Mani",3,4,2
 11-Aug-07,Tamil,movie,Nizhal Nijamagiradhu,"K Balachandar, Kamal Hassan, Shoba",5,5,3
 09-Aug-07,English,movie,Borat: Cultural Learnings of America for Make Benefit Glorious Nation of Kazakhstan,,1,1,1
-08-Aug-07,English,movie,Chicago,"Renée Zellweger, Richard Gere, Catherine Zeta-Jones",3,4,1
+08-Aug-07,English,movie,Chicago,"RenÃ©e Zellweger, Richard Gere, Catherine Zeta-Jones",3,4,1
 07-Aug-07,English,movie,Falling Down,Michael Douglas,3,3,1
 06-Aug-07,English,movie,Fracture,"Anthony Hopkins, Ryan Gosling",3,3,2
 05-Aug-07,Hindi,movie,Jhoom Barabar Jhoom,"Abhishek Bachchan, Preity Zinta",3,3,2
@@ -2148,7 +2148,7 @@ date,language,type,title,by,overall,quality,repeatability
 10-Nov-06,English,movie,Timeline,Richard Donner,3,2,2
 08-Nov-06,English,fiction,The Count of Monte Cristo,Alexandre Dumas,5,5,2
 07-Nov-06,English,movie,Mission Impossible 3,"Tom Cruise, Philip Seymour Hoffman",4,3,2
-06-Nov-06,English,movie,"Vita è bella, La",Roberto Benigni,5,5,2
+06-Nov-06,English,movie,"Vita Ã¨ bella, La",Roberto Benigni,5,5,2
 05-Nov-06,English,movie,Sin City,"Bruce Willis, Jessica Alba",4,4,1
 04-Nov-06,English,movie,The Italian Job,"Mark Walhberg, Charlize Theron, Edward Norton",3,3,1
 02-Nov-06,German,movie,Lola Rennt,,4,4,1
@@ -2158,7 +2158,7 @@ date,language,type,title,by,overall,quality,repeatability
 30-Oct-06,English,movie,The Devil Wears Prada,"Meryl Streep, Anne Hathaway",3,3,1
 30-Oct-06,English,fiction,The Song of the Lioness: Lioness Rampant,Tamora Pierce,3,3,1
 30-Oct-06,English,movie,V for Vendetta,Natalie Portman,5,5,2
-30-Oct-06,English,movie,Léon,"Jean Remo, Natalie Portman",4,4,1
+30-Oct-06,English,movie,LÃ©on,"Jean Remo, Natalie Portman",4,4,1
 29-Oct-06,English,movie,The Constant Gardener,"Ralph Fiennes, Rachel Weisz",4,4,2
 28-Oct-06,Tamil,movie,Thirumalai,"Vijay, Jyothika",3,3,2
 27-Oct-06,English,movie,The Third Man,,3,4,1
@@ -2266,7 +2266,7 @@ date,language,type,title,by,overall,quality,repeatability
 13-May-06,Tamil,movie,Saravana,"Silambarasan, Jyothika, Prakash Raj",3,3,3
 11-May-06,Tamil,movie,Anjaneya,"Ajit, Meera Jasmine",3,3,2
 11-May-06,English,movie,Notorious,"Cary Grant, Ingrid Bergman",3,3,2
-10-May-06,French,movie,"Fabuleux destin d'Amélie Poulain, Le",Audrey Tatou,5,5,2
+10-May-06,French,movie,"Fabuleux destin d'AmÃ©lie Poulain, Le",Audrey Tatou,5,5,2
 08-May-06,English,movie,Dog Day Afternoon,Al Pacino,4,4,1
 07-May-06,Tamil,movie,Pachai Kudhirai,"Parthiban, Namitha",1,1,1
 06-May-06,English,video,President Bush Impersonation,Steve Bridges,2,3,1
