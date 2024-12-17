@@ -22,9 +22,11 @@ This Python project, autolysis.py, offers a streamlined approach to cleaning, pr
 
 Prerequisites: Ensure you have Python installed on your system.
 
-Use the [uv package manager](https://www.youtube.com/watch?v=igWlYl3asKw&t=1240s) to run the script via a command line argument (in the script folder) of the form:
+Use the [uv package manager](https://www.youtube.com/watch?v=igWlYl3asKw&t=1240s) to run the script via a command line argument (in the script folder) of the form:  
 
-`uv run autolysis.py <dataset_path>.csv`
+   ```python
+      uv run autolysis.py <dataset_path>.csv
+```
 
 ## How It Works:
 
