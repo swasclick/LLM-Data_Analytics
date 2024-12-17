@@ -24,43 +24,9 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.impute import SimpleImputer
 from mpl_toolkits.mplot3d import Axes3D
 
-def make_api_call(prompt):
-    # Fetch API key from environment
-    try:
-        api_key = os.environ['AIPROXY_TOKEN']
-    except KeyError:
-        print("AIPROXY_TOKEN environment variable not found.")
-        api_key = None
 
-    if not api_key:
-        print("API key is missing. Cannot make API call.")
-        return None
+# ----------LOADING DATA FILE-------------------------------------------------------------
 
-    # Define API endpoint and headers
-    url = "https://aiproxy.sanand.workers.dev/openai/v1/chat/completions"
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    data = {
-        "model": "gpt-4o-mini",
-        "messages": [
-            {"role": "system", "content": "You are a data analyst."},
-            {"role": "user", "content": prompt}
-        ]
-    }
-
-    try:
-        # Make the API call
-        response = requests.post(url, headers=headers, json=data)
-        response.raise_for_status()  # Raise an exception for HTTP errors
-        return response.json()["choices"][0]["message"]["content"]
-    except requests.exceptions.RequestException as e:
-        print(f"Error making API call: {e}")
-        if e.response:
-            print(f"Response status code: {e.response.status_code}")
-            print(f"Response text: {e.response.text}")
-        return None
 
 def load_csv(file_path, encodings=None):
     """
@@ -128,7 +94,7 @@ def preprocess_dataframe(df):
 
     # Parse the output of the API call to extract relevant variables
     # Expected format: ['column1', 'column2', ...]
-    #Parse the response string into python list
+    # Parse the response string into python list
     variables = ast.literal_eval(analyze_data_for_relationships(df))
 
     summary = {}
@@ -490,6 +456,45 @@ def plot_numerical_distributions(df, numerical_columns, output_folder):
 #----------LLM PROMPTING FUNCTIONS-------------------------------------------------------------
 
 
+def make_api_call(prompt):
+    # Fetch API key from environment
+    try:
+        api_key = os.environ['AIPROXY_TOKEN']
+    except KeyError:
+        print("AIPROXY_TOKEN environment variable not found.")
+        api_key = None
+
+    if not api_key:
+        print("API key is missing. Cannot make API call.")
+        return None
+
+    # Define API endpoint and headers
+    url = "https://aiproxy.sanand.workers.dev/openai/v1/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    data = {
+        "model": "gpt-4o-mini",
+        "messages": [
+            {"role": "system", "content": "You are a data analyst."},
+            {"role": "user", "content": prompt}
+        ]
+    }
+
+    try:
+        # Make the API call
+        response = requests.post(url, headers=headers, json=data)
+        response.raise_for_status()  # Raise an exception for HTTP errors
+        return response.json()["choices"][0]["message"]["content"]
+    except requests.exceptions.RequestException as e:
+        print(f"Error making API call: {e}")
+        if e.response:
+            print(f"Response status code: {e.response.status_code}")
+            print(f"Response text: {e.response.text}")
+        return None
+
+
 # Function to sample data and generate an analysis prompt
 def generate_llm_analysis(df, num_rows=100):
     """
@@ -513,8 +518,6 @@ def generate_llm_analysis(df, num_rows=100):
     sampled_data_dict = sampled_data.to_dict(orient="records")
 
     # Construct the LLM prompt
-
-    
     prompt = (
         "You are an advanced data analyst. Here is a sample of the dataset: \n" +
         f"{sampled_data_dict}\n" +
@@ -537,7 +540,6 @@ def generate_llm_analysis(df, num_rows=100):
 
     # Make the API call using the make_api_call function
     response = make_api_call(prompt)
-
     return response
 
 
@@ -548,7 +550,6 @@ def generate_llm_analysis(df, num_rows=100):
 and readability. It's a prime example of high-quality programming practices. The code follows best practices, ensuring maintainability and scalability.
 All performance bottlenecks have been addressed, and the solution demonstrates efficiency.
 '''
-
 
 
 # Ensure the script is provided with a dataset argument
