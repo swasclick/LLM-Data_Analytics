@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-import requests
+import requests, json
+from pprint import pprint
 import plotly.graph_objects as go
 
 path = str(input("Enter file path: "))
@@ -48,7 +49,7 @@ def load_csv(file_path, encodings=None):
             pass
 
     # Return an error message if all encodings fail
-    return "All attempts to load the file failed. Please check the file format and content."
+    print("All attempts to load the file failed. Please check the file format and content.") 
     
 # Preprocessing Functions
 
@@ -107,7 +108,6 @@ def findColumnType(df,col):
 
 # Running code
 df = load_csv(path)
-
 # Classify Columns
 metadata = {}
 for col in df.columns:
@@ -121,6 +121,8 @@ for col in df.columns:
     }
     metadata[col] = colData
     
+print(f'--- THE COLUMNS HAVE BEEN IDENTIFIED AS FOLLOWS---\n')
+pprint(metadata)
 # Use LLM to see what unknown columns are
 sample_values = {}
 for key,value in metadata.items():
@@ -129,7 +131,8 @@ for key,value in metadata.items():
 
 
 prompt = f"""
-You are a highly reliable data science assistant. Your task is to classify data columns based on sample values. You will be provided a Python dictionary where:
+You are a highly reliable data science assistant. Your task is to classify data columns based on sample values. 
+You will be provided a Python dictionary where:
 
 - Keys are column names (strings)
 - Values are a list of sample values from that column
@@ -139,12 +142,11 @@ Your job is to return a single Python dictionary where:
 - Each value is a dictionary with the following **strict format**:
 
 colData = {{
-    "name": # The name of the column
     "type": "numeric" | "categorical" | "datetime" | "string" | "unknown",
-    "grouped": true | false,        # Can we group/aggregate data by this column?
-    "feature": true | false,        # Is this column suitable as a feature for machine learning modeling or trend analysis?
-    "sentiment": true | false,      # Can we run sentiment analysis on this column? (is it a review?)
-    "date": true | false            # Does this column contain dates or time info?
+    "grouped": "true" | "false",        # Can we group/aggregate data by this column?
+    "feature": "true" | "false",        # Is this column suitable as a feature for machine learning modeling or trend analysis?
+    "sentiment": "true" | "false",      # Can we run sentiment analysis on this column? (is it a review?)
+    "date": "true" | "false"            # Does this column contain dates or time info?
 }}
 
 Use only the allowed values above. Do not return any explanation or extra text.
@@ -155,26 +157,17 @@ Input:
 Output: Return ONLY the final Python dictionary described above, and nothing else.
 """
 
-# prompt = f'''
-# You are a data scientist assistant. Given the column values below, classify the type of data and return a 
-# structured JSON with specific flags that help decide the next steps in data analysis.
+response = call_llm(prompt)
+if isinstance(response,str):
+    response = json.loads(response)
+if response:
+    for key,value in response.items():
+        for k,v in value.items():
+            if value[k] == 'true':
+                value[k] = 'y'
+            elif value[k] == 'false':
+                value[k] = 'n'
+        metadata[key] = value
 
-# Column Sample Values:
-# {sample_values}
-
-# Return your answer as a Python dictionary in the following format **only**, using only the allowed values listed:
-
-# ```python
-# colData = {{
-#     "name": # The name of the column
-#     "type": "numeric" | "categorical" | "datetime" | "string" | "unknown",
-#     "grouped": true | false,        # Can we group/aggregate data by this column?
-#     "feature": true | false,        # Is this column suitable as a feature for machine learning modeling or trend analysis?
-#     "sentiment": true | false,      # Can we run sentiment analysis on this column?
-#     "date": true | false            # Does this column contain dates or time info?
-# }}
-
-# '''
-
-print(call_llm(prompt))
-print(metadata)
+print(f'--- THE COLUMNS HAVE BEEN CLASSIFIED AS FOLLOWS---\n')
+pprint(metadata)
