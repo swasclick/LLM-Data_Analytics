@@ -1,8 +1,12 @@
+# Ensure dates have a format that starts with the day, not month or year
 import pandas as pd
 import numpy as np
 import requests, json
 from pprint import pprint
 import plotly.graph_objects as go
+import os
+from openai import OpenAI
+from together import Together
 
 path = str(input("Enter file path: "))
 api_key = str(input("Enter api key: "))
@@ -40,31 +44,71 @@ Output: Return ONLY the final Python dictionary described above, and nothing els
 # Helper Functions
 
 def call_llm(prompt):
-    # Define API endpoint and headers
-    url = "https://aiproxy.sanand.workers.dev/openai/v1/chat/completions"
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    data = {
-        "model": "gpt-4o-mini",
-        "messages": [
-            {"role": "system", "content": "You are a data analyst."},
-            {"role": "user", "content": prompt}
-        ]
-    }
+    # try:
+    #     client = OpenAI(
+    #         base_url="https://router.huggingface.co/v1",
+    #         api_key=api_key,
+    #     )
+
+    #     completion = client.chat.completions.create(
+    #         model="zai-org/GLM-4.5:novita",
+    #         messages=[
+    #             {"role": "system", "content": "You are a data analyst. Respond with only the final answer, without prefacing it with any thinking or explanation."},
+    #             {"role": "user", "content": prompt + " Only return the final JSON dictionary output. Do not include <think> blocks or internal reasoning."}
+
+    #         ],
+    #     )
+    #     print((completion.choices[0].message.content))
+    #     return completion.choices[0].message.content
+    
+    # except Exception as e:
+    #     # Print any error: could be network, bad key, model error, etc.
+    #     print(f"Error occurred: {e}")
+    # return None
+
+    # client = Together(api_key=api_key)
+    # try:
+    #     # Make the API call
+    #     print("> CALLING LLM...\n")
+    #     # response = requests.post(url, headers=headers, json=data)
+    #     response = client.chat.completions.create(
+    #     model="meta-llama/Llama-Vision-Free",
+    #     messages=[
+    #     {
+    #         "role": "user",
+    #         "content": "What are some fun things to do in New York?"
+    #     }
+    #     ]
+    # )
+    #     response.raise_for_status()  # Raise an exception for HTTP errors
+    #     return response.json()["choices"][0]["message"]["content"]
+    # except requests.exceptions.RequestException as e:
+    #     print(f"Error making API call: {e}")
+    #     if e.response:
+    #         print(f"Response status code: {e.response.status_code}")
+    #         print(f"Response text: {e.response.text}")
+    #     return None
+    
+    client = Together(api_key=api_key)
 
     try:
-        # Make the API call
         print("> CALLING LLM...\n")
-        response = requests.post(url, headers=headers, json=data)
-        response.raise_for_status()  # Raise an exception for HTTP errors
-        return response.json()["choices"][0]["message"]["content"]
-    except requests.exceptions.RequestException as e:
-        print(f"Error making API call: {e}")
-        if e.response:
-            print(f"Response status code: {e.response.status_code}")
-            print(f"Response text: {e.response.text}")
+
+        response = client.chat.completions.create(
+            model="Qwen/Qwen2-72B-Instruct",  # Or: meta-llama/Llama-3-70B-Instruct
+            messages=[
+                {
+                    "role": "user",
+                    "content": f'{prompt} Only return the final JSON dictionary output. Do not include <think> blocks or internal reasoning.'
+                }
+            ],
+            max_tokens=256,
+            temperature=0.7
+        )
+
+        print(response.choices[0].message.content)
+    except Exception as e:
+        print(f"Error occurred: {e}")
         return None
 
 def load_csv(file_path, encodings=None):
@@ -110,22 +154,19 @@ def findColumnType(df,col):
             grouped = 'y'
         return  df[col].name , 'categorical' , grouped , 'y' , 'n' , 'n' 
     # Check for datetime column
-    if pd.api.types.is_datetime64_any_dtype(cleaned):
+    
+    def isdate(col):
+            col2 = pd.to_datetime(col, errors='coerce',dayfirst=True)
+            if col2.isnull().sum() > 0.5 * len(col):
+                return False
+            return True
+
+    if isdate(cleaned): #check if it is date type column
         grouped = 'n'
-        if len(cleaned) < 0.6*len(df[col].unique()):
+        if len(cleaned) > 100:
             grouped = 'y'
-            return df[col].name , 'datetime' , grouped , 'n' , 'n' , 'y'
         return df[col].name , 'datetime' , grouped , 'n' , 'n' , 'y'
-    column = cleaned.astype(str).str.strip()
-    column = pd.to_datetime(column,errors='coerce')
-    # Heuristic: if 80% valid values, parse into dates
-    if column.notna().sum() / len(cleaned) > 0.8:
-            df[col] = pd.to_datetime(df[col],errors='coerce')
-            grouped = 'n'
-            if len(cleaned) < 0.6*len(df[col].unique()):
-                grouped = 'y'
-                return df[col].name , 'datetime' , grouped , 'n' , 'n' , 'y'
-            return df[col].name , 'datetime'  , grouped , 'n' , 'n', 'y'
+    
     # Check if categorical
     if len(cleaned.astype(str)) < 20:
         return df[col].name , 'categorical', 'y' , 'y' , 'n' , 'n'
@@ -180,7 +221,15 @@ print()
 # Perform EDA
 
 '''dtypes : boolen, numerical,datetime,categorical,string'''
-'''yes/no: grouping, ml features, sentiment, time series'''
+'''yes/no: grouping, ml features, sentiment, time series
+
+- Numerical: histogram, boxplot, scatterplot
+- Categorical: bar chart, pie chart
+- Boolean: pie chart
+- Datetime: time series plot, histogram
+- String: bar chart, word cloud
+- Unknown: bar chart, pie chart
+'''
 
 # Boolean Columns
 bool_cols = [col for col in df.columns if metadata[col]['type'] == 'boolean']
@@ -216,10 +265,10 @@ date_cols = [col for col in df.columns if metadata[col]['type'] == 'datetime']
 if date_cols:
     print(f'--- DATETIME COLUMNS ---\n{date_cols}\n')
     for col in date_cols:
-        df[col] = pd.to_datetime(df[col], errors='coerce')
-        date_counts = df[col].dropna().value_counts().sort_index()
+        df[col] = pd.to_datetime(df[col], errors='coerce',dayfirst=True)
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=df[col].resample('M').mean(), y=df['quality'], mode='lines+markers', name='Time Series'))
+        column = cat_cols[0]
+        fig.add_trace(go.Scatter(x=df[col], y=df[column], mode='lines+markers', name='Time Series'))
         fig.update_layout(title_text=f'Datetime Column: {col}', xaxis_title=col, yaxis_title='Count')
         fig.show()
 # String Columns
@@ -229,13 +278,5 @@ if str_cols:
     for col in str_cols:
         fig = go.Figure(data=[go.Bar(x=df[col].value_counts().index, y=df[col].value_counts().values)])
         fig.update_layout(title_text=f'String Column: {col}', xaxis_title=col, yaxis_title='Count')
-        fig.show()
-# Unknown Columns
-unknown_cols = [col for col in df.columns if metadata[col]['type'] == 'unknown']
-if unknown_cols:
-    print(f'--- UNKNOWN COLUMNS ---\n{unknown_cols}\n')
-    for col in unknown_cols:
-        fig = go.Figure(data=[go.Bar(x=df[col].value_counts().index, y=df[col].value_counts().values)])
-        fig.update_layout(title_text=f'Unknown Column: {col}', xaxis_title=col, yaxis_title='Count')
         fig.show()
         
